@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-// >> $ node ./example.js list
-// >> $ node ./example.js list --limit 5
-// >> $ node ./example.js comment --id 2921983
-// >> $ node ./example.js comments --id 8863 --format flat
+// >> $ node ./index.js list
+// >> $ node ./index.js list --limit 5
+// >> $ node ./index.js comment --id 2921983
+// >> $ node ./index.js comments --id 8863 --format flat
 
 import { minimist, argv } from "zx";
 
@@ -50,11 +50,9 @@ if (!command) {
 const args = minimist(process.argv.slice(2));
 const id = args.id;
 const limit = args.limit ? parseInt(args.limit) : null;
-// const limit = args.limit ? parseInt(args.limit) : 10;
 const flat = args.format ? args.format === "flat" : false;
 
 if (command === "list") {
-	// const limit = argv.limit ? parseInt(argv.limit) : 10;
 	try {
 		const idsResponse = await fetch(`${BASE_URL}/topstories.json`);
 		let ids = await idsResponse.json();
@@ -63,11 +61,7 @@ if (command === "list") {
 			ids = ids.slice(0, limit);
 		}
 
-		// console.log(ids.length);
-		// process.exit(0);
-
 		const stories = await Promise.all(ids.map((id) => getItem(id)));
-		// const stories = await Promise.all(ids.slice(0, limit).map((id) => getItem(id)));
 		const sortedStories = stories.sort((a, b) => b.score - a.score);
 
 		console.log(JSON.stringify(sortedStories, null, 2));
@@ -76,7 +70,6 @@ if (command === "list") {
 		process.exit(1);
 	}
 } else if (command === "comment") {
-	// const id = argv.id;
 	if (!id) {
 		console.error("Error: ID is required via --id or stdin.");
 		process.exit(1);
@@ -84,7 +77,6 @@ if (command === "list") {
 	const item = await getItem(id);
 	console.log(JSON.stringify(item, null, 2));
 } else if (command === "comments") {
-	// const id = argv.id;
 	if (!id) {
 		console.error("Error: Story ID is required.");
 		process.exit(1);
@@ -96,20 +88,23 @@ if (command === "list") {
 			console.log(JSON.stringify([]));
 			process.exit(0);
 		}
-		// console.log(rootItem);
 
 		const flatComments = rootItem.kids ? await getCommentsRecursive(rootItem.kids) : [];
 		// console.log(flatComments);
 
 		if (flat) {
 			console.log(JSON.stringify([rootItem, ...flatComments], null, 2));
-			// console.log(JSON.stringify(flatComments, null, 2));
 		} else {
-			const treeComments = {
-				...rootItem,
-				replies: buildTree(flatComments, parseInt(id)),
-			};
-			console.log(JSON.stringify(treeComments, null, 2));
+			console.log(
+				JSON.stringify(
+					{
+						...rootItem,
+						replies: buildTree(flatComments, parseInt(id)),
+					},
+					null,
+					2,
+				),
+			);
 		}
 	} catch (e) {
 		console.error(`Error fetching comments: ${e.message}`);
