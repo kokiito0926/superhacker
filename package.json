@@ -1,0 +1,41 @@
+{
+	"name": "@kokiito0926/superhacker",
+	"version": "0.0.0",
+	"private": false,
+	"description": "スーパーハッカー（superhacker）を用いると、Hacker NewsのAPIをかんたんに呼び出すことができます。",
+	"keywords": [
+		"cli",
+		"bash",
+		"shell",
+		"script",
+		"nodejs",
+		"Hacker News",
+		"superhacker"
+	],
+	"homepage": "https://github.com/kokiito0926/superhacker#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"bin": {
+		"superhacker": "index.js"
+	},
+	"bugs": {
+		"url": "https://github.com/kokiito0926/superhacker/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kokiito0926/superhacker.git"
+	},
+	"license": "MIT",
+	"author": "Koki Ito <kokiito0926@gmail.com>",
+	"type": "module",
+	"scripts": {
+		"test": "node --test"
+	},
+	"dependencies": {
+		"zx": "^8.8.4"
+	},
+	"engines": {
+		"node": ">=24.0.0"
+	}
+}
