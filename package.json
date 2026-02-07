@@ -2,7 +2,7 @@
 	"name": "@kokiito0926/superhacker",
 	"version": "0.0.1",
 	"private": false,
-	"description": "スーパーハッカー（superhacker）を用いると、Hacker NewsのAPIをかんたんに呼び出すことができます。",
+	"description": "Hacker NewsのAPIを利用して、ストーリーやコメントをJSON形式で取得することができるコマンドラインのツールです。",
 	"keywords": [
 		"cli",
 		"bash",
