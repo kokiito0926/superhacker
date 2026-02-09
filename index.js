@@ -5,7 +5,7 @@
 // >> $ node ./index.js comment --id 2921983
 // >> $ node ./index.js comments --id 8863 --format flat
 
-import { minimist, argv } from "zx";
+import { argv } from "zx";
 
 const BASE_URL = "https://hacker-news.firebaseio.com/v0";
 
@@ -47,10 +47,9 @@ if (!command) {
 }
 // console.log(command);
 
-const args = minimist(process.argv.slice(2));
-const id = args.id;
-const limit = args.limit ? parseInt(args.limit) : null;
-const flat = args.format ? args.format === "flat" : false;
+const id = argv?.id;
+const limit = argv?.limit ? parseInt(argv?.limit) : null;
+const flat = argv?.format ? argv?.format === "flat" : false;
 
 if (command === "list") {
 	try {
