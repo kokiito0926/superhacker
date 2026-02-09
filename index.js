@@ -52,22 +52,17 @@ const limit = argv?.limit ? parseInt(argv?.limit) : null;
 const flat = argv?.format ? argv?.format === "flat" : false;
 
 if (command === "list") {
-	try {
-		const idsResponse = await fetch(`${BASE_URL}/topstories.json`);
-		let ids = await idsResponse.json();
+	const idsResponse = await fetch(`${BASE_URL}/topstories.json`);
+	let ids = await idsResponse.json();
 
-		if (limit > 0) {
-			ids = ids.slice(0, limit);
-		}
-
-		const stories = await Promise.all(ids.map((id) => getItem(id)));
-		const sortedStories = stories.sort((a, b) => b.score - a.score);
-
-		console.log(JSON.stringify(sortedStories, null, 2));
-	} catch (e) {
-		console.error(`Error fetching list: ${e.message}`);
-		process.exit(1);
+	if (limit > 0) {
+		ids = ids.slice(0, limit);
 	}
+
+	const stories = await Promise.all(ids.map((id) => getItem(id)));
+	const sortedStories = stories.sort((a, b) => b.score - a.score);
+
+	console.log(JSON.stringify(sortedStories, null, 2));
 } else if (command === "comment") {
 	if (!id) {
 		console.error("Error: ID is required via --id or stdin.");
@@ -81,32 +76,27 @@ if (command === "list") {
 		process.exit(1);
 	}
 
-	try {
-		const rootItem = await getItem(id);
-		if (!rootItem) {
-			console.log(JSON.stringify([]));
-			process.exit(0);
-		}
+	const rootItem = await getItem(id);
+	if (!rootItem) {
+		console.log(JSON.stringify([]));
+		process.exit(0);
+	}
 
-		const flatComments = rootItem.kids ? await getCommentsRecursive(rootItem.kids) : [];
-		// console.log(flatComments);
+	const flatComments = rootItem.kids ? await getCommentsRecursive(rootItem.kids) : [];
+	// console.log(flatComments);
 
-		if (flat) {
-			console.log(JSON.stringify([rootItem, ...flatComments], null, 2));
-		} else {
-			console.log(
-				JSON.stringify(
-					{
-						...rootItem,
-						replies: buildTree(flatComments, parseInt(id)),
-					},
-					null,
-					2,
-				),
-			);
-		}
-	} catch (e) {
-		console.error(`Error fetching comments: ${e.message}`);
-		process.exit(1);
+	if (flat) {
+		console.log(JSON.stringify([rootItem, ...flatComments], null, 2));
+	} else {
+		console.log(
+			JSON.stringify(
+				{
+					...rootItem,
+					replies: buildTree(flatComments, parseInt(id)),
+				},
+				null,
+				2,
+			),
+		);
 	}
 }
