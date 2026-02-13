@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 // >> $ node ./index.js list
-// >> $ node ./index.js list --limit 5
 // >> $ node ./index.js comment --id 2921983
 // >> $ node ./index.js comments --id 8863 --format flat
 
@@ -68,7 +67,6 @@ if (!command) {
 // console.log(command);
 
 const id = argv?.id ? parseInt(argv.id) : null;
-const limit = argv?.limit ? parseInt(argv?.limit) : null;
 const flat = argv?.format ? argv?.format === "flat" : false;
 
 if (command === "list") {
@@ -78,10 +76,6 @@ if (command === "list") {
 		process.exit(1);
 	}
 	let ids = await idsResponse.json();
-
-	if (limit > 0) {
-		ids = ids.slice(0, limit);
-	}
 
 	const stories = await Promise.all(ids.map((id) => getItem(id)));
 	const sortedStories = stories
