@@ -22,14 +22,11 @@ $ superhacker list
 ```bash
 $ superhacker comment 46726480
 ```
-```
 
-コメントのIDを指定して、すべての返信を再帰的に取得します。  
-デフォルトでは、ツリー構造で取得されますが、フラットな形式で取得することもできます。
+コメントのIDを指定して、すべての返信を再帰的に取得します。
 
 ```bash
 $ superhacker comments 46726480
-$ superhacker comments 46726480 --format flat
 ```
 
 ## ライセンス

@@ -2,7 +2,7 @@
 
 // >> $ node ./index.js list
 // >> $ node ./index.js comment <id>
-// >> $ node ./index.js comments <id> --format flat
+// >> $ node ./index.js comments <id>
 
 import { argv } from "zx";
 
@@ -68,7 +68,6 @@ if (!command) {
 
 const boardId = argv._[1];
 const threadId = argv._[2];
-const flat = argv?.format ? argv?.format === "flat" : false;
 
 if (command === "list") {
 	const idsResponse = await fetch(`${BASE_URL}/topstories.json`);
@@ -110,21 +109,17 @@ if (command === "list") {
 	const flatComments = rootItem.kids ? await getCommentsRecursive(rootItem.kids) : [];
 	// console.log(flatComments);
 
-	if (flat) {
-		console.log(JSON.stringify([rootItem, ...flatComments], null, 2));
-	} else {
-		const tree = buildTree(flatComments, parseInt(boardId));
-		console.log(
-			JSON.stringify(
-				{
-					...rootItem,
-					replies: tree,
-				},
-				null,
-				2,
-			),
-		);
-	}
+	const tree = buildTree(flatComments, parseInt(boardId));
+	console.log(
+		JSON.stringify(
+			{
+				...rootItem,
+				replies: tree,
+			},
+			null,
+			2,
+		),
+	);
 } else {
 	console.error(`Error: Unknown command "${command}". Available commands: list, comment, comments.`);
 	process.exit(1);
