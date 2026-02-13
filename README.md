@@ -1,6 +1,6 @@
 ## superhacker
 
-superhackerは、Hacker NewsのAPIを利用して、ストーリーやコメントをJSON形式で取得することができるコマンドラインのツールです。  
+superhackerは、[Hacker News](https://news.ycombinator.com/)のAPIを利用して、ストーリーやコメントをJSON形式で取得することができるコマンドラインのツールです。  
 JSON形式でストーリーやコメントを取得することができるので、jqなどでフィルタリングをしやすくなったり、大規模言語モデルに与えやすくなったりします。
 
 ## インストール
