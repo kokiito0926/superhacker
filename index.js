@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 // >> $ node ./index.js list
-// >> $ node ./index.js comment --id 2921983
-// >> $ node ./index.js comments --id 8863 --format flat
+// >> $ node ./index.js comment <id>
+// >> $ node ./index.js comments <id> --format flat
 
 import { argv } from "zx";
 
@@ -66,7 +66,8 @@ if (!command) {
 }
 // console.log(command);
 
-const id = argv?.id ? parseInt(argv.id) : null;
+const boardId = argv._[1];
+const threadId = argv._[2];
 const flat = argv?.format ? argv?.format === "flat" : false;
 
 if (command === "list") {
@@ -84,25 +85,25 @@ if (command === "list") {
 
 	console.log(JSON.stringify(sortedStories, null, 2));
 } else if (command === "comment" || command === "item") {
-	if (!id) {
-		console.error("Error: ID is required via --id.");
+	if (!boardId) {
+		console.error("Error: ID is required.");
 		process.exit(1);
 	}
-	const item = await getItem(id);
+	const item = await getItem(parseInt(boardId));
 	if (!item) {
-		console.error(`Error: Item ${id} not found.`);
+		console.error(`Error: Item ${boardId} not found.`);
 		process.exit(1);
 	}
 	console.log(JSON.stringify(item, null, 2));
 } else if (command === "comments") {
-	if (!id) {
-		console.error("Error: Story/Comment ID is required via --id.");
+	if (!boardId) {
+		console.error("Error: Story/Comment ID is required.");
 		process.exit(1);
 	}
 
-	const rootItem = await getItem(id);
+	const rootItem = await getItem(parseInt(boardId));
 	if (!rootItem) {
-		console.error(`Error: Root item ${id} not found.`);
+		console.error(`Error: Root item ${boardId} not found.`);
 		process.exit(1);
 	}
 
@@ -112,7 +113,7 @@ if (command === "list") {
 	if (flat) {
 		console.log(JSON.stringify([rootItem, ...flatComments], null, 2));
 	} else {
-		const tree = buildTree(flatComments, id);
+		const tree = buildTree(flatComments, parseInt(boardId));
 		console.log(
 			JSON.stringify(
 				{
