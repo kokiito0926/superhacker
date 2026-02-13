@@ -1,6 +1,6 @@
 {
 	"name": "@kokiito0926/superhacker",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"private": false,
 	"description": "Hacker NewsのAPIを利用して、ストーリーやコメントをJSON形式で取得することができるコマンドラインのツールです。",
 	"keywords": [
