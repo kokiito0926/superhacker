@@ -6,6 +6,10 @@ JSON形式でストーリーやコメントを取得することができるの�
 ## インストール
 
 ```bash
+$ npm install --save @kokiito0926/superhacker
+```
+
+```bash
 $ npm install --global @kokiito0926/superhacker
 ```
 
