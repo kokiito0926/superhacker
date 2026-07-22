@@ -16,6 +16,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"exports": {
+		".": "./lib.js"
+	},
 	"bin": {
 		"superhacker": "index.js"
 	},
